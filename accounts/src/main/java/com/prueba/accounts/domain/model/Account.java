@@ -26,6 +26,7 @@ public class Account {
     private String numero_cuenta;
     private String tipo_cuenta;
     private Double saldo_inicial;
+    private Double saldo_disponible;
     private String estado;
     private Long clienteId;
 

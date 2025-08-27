@@ -6,11 +6,13 @@ package com.prueba.accounts.infrastructure.adapter.out.mapper;
 
 import com.prueba.accounts.domain.model.Account;
 import com.prueba.accounts.infrastructure.adapter.out.entity.AccountEntity;
+import org.springframework.stereotype.Component;
 
 /**
  *
  * @author chris
  */
+@Component
 public class AccountMapper {
 
     public static AccountEntity toEntity(Account account) {
@@ -40,6 +42,7 @@ public class AccountMapper {
         account.setNumero_cuenta(entity.getNumeroCuenta());
         account.setTipo_cuenta(entity.getTipoCuenta());
         account.setSaldo_inicial(entity.getSaldoInicial());
+        account.setSaldo_disponible(entity.getSaldoDisponible());
         account.setEstado(entity.getEstado().toString()); // si tu Account tiene String
         account.setClienteId(entity.getClienteId());
         return account;

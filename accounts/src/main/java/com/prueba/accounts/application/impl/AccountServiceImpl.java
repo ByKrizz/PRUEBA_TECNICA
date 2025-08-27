@@ -36,6 +36,7 @@ public class AccountServiceImpl implements AccountService {
         }
         String numeroCuenta = "ACC-" + System.currentTimeMillis();
         cuenta.setNumero_cuenta(numeroCuenta);
+        cuenta.setSaldo_disponible(cuenta.getSaldo_inicial());
 
         return accountRepository.save(cuenta);
     }
@@ -58,13 +59,13 @@ public class AccountServiceImpl implements AccountService {
         }
 
         Account cuenta = cuentaOpt.get();
-        double nuevoSaldo = cuenta.getSaldo_inicial() + monto;
+        double nuevoSaldo =  monto;
 
         if (nuevoSaldo < 0) {
             throw new IllegalStateException("Saldo no disponible");
         }
 
-        cuenta.setSaldo_inicial(nuevoSaldo);
+        cuenta.setSaldo_disponible(nuevoSaldo);
         accountRepository.save(cuenta);
     }
 
