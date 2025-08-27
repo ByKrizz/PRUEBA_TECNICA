@@ -28,6 +28,21 @@ services:
     depends_on:
       - mysql-db
 
+  account-service:
+      build: ./accounts
+      container_name: account-service
+      ports:
+        - "8080:8080"
+      networks:
+        - backend-net
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/accountdb
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: secret
+        CUSTOMER_SERVICE_URL: http://customer-service:8081
+      depends_on:
+        - mysql-db
+        - customer-service
 networks:
   backend-net:
 
