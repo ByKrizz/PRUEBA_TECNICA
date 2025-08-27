@@ -1,0 +1,107 @@
+{
+	"info": {
+		"_postman_id": "89f5ebe4-485d-4bb6-8a61-6f3de26da5c7",
+		"name": "PRUEBA_SOFKA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "27399285"
+	},
+	"item": [
+		{
+			"name": "CREATE_CUSTOMER",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": {}
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nombre\": \"Christopher Arteaga\",\r\n  \"direccion\": \"Av. Quito 123\",\r\n  \"telefono\": \"0991234567\",\r\n  \"password\": \"secreto\",\r\n  \"estado\": \"ACTIVO\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/customers"
+			},
+			"response": []
+		},
+		{
+			"name": "GET_CUSTOMER_ID",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8081/customers/1"
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE_ACCOUNT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"tipo_cuenta\": \"Ahorros\",\r\n  \"saldo_inicial\": 500.0,\r\n  \"estado\": \"Activo\",\r\n  \"clienteId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/account"
+			},
+			"response": []
+		},
+		{
+			"name": "GET_ACCOUNT_NUMBER",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/account/ACC-1756268623667"
+			},
+			"response": []
+		},
+		{
+			"name": "GET_ACCOUNT_CUSTOMER_ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8080/account/customer/1"
+			},
+			"response": []
+		},
+		{
+			"name": "MOVEMENT_DEBIT_CREDIT",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"debito\",\r\n  \"valor\": 10.0,\r\n  \"saldoDisponible\": 500.0,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756315655957\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"saldo_inicial\": 500.0,\r\n        \"saldo_disponible\": 500.0,\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:8080/movements"
+			},
+			"response": []
+		}
+	]
+}
