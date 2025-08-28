@@ -8,6 +8,7 @@ import com.prueba.accounts.domain.model.Account;
 import com.prueba.accounts.domain.port.in.AccountService;
 import com.prueba.accounts.domain.port.out.AccountRepository;
 import com.prueba.accounts.domain.port.out.CustomerGateway;
+import com.prueba.accounts.domain.port.out.CustomerQueryPort;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,19 @@ public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final CustomerGateway customerGateway;
+    private final CustomerQueryPort customerQueryPort;
 
-    public AccountServiceImpl(AccountRepository accountRepository, CustomerGateway customerGateway) {
+    public AccountServiceImpl(AccountRepository accountRepository, CustomerGateway customerGateway, CustomerQueryPort customerQueryPort) {
         this.accountRepository = accountRepository;
         this.customerGateway = customerGateway;
+        this.customerQueryPort = customerQueryPort;
     }
 
     @Override
     public Account createAccount(Account cuenta) {
-        // Verificar si el cliente existe en el servicio externo
-        var cliente = customerGateway.findById(cuenta.getClienteId());
+
+        //var cliente = customerGateway.findById(cuenta.getClienteId()); //anterior
+        var cliente = customerQueryPort.findById(cuenta.getClienteId()); //nuevo
         if (cliente.isEmpty()) {
             throw new IllegalArgumentException("Cliente no encontrado con id: " + cuenta.getClienteId());
         }
@@ -59,7 +63,7 @@ public class AccountServiceImpl implements AccountService {
         }
 
         Account cuenta = cuentaOpt.get();
-        double nuevoSaldo =  monto;
+        double nuevoSaldo = monto;
 
         cuenta.setSaldo_disponible(nuevoSaldo);
         accountRepository.updateBalance(numeroCuenta, nuevoSaldo);
