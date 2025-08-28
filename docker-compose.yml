@@ -28,10 +28,11 @@ services:
       - backend-net
 
   kafka:
-    image: confluentinc/cp-kafka:latest
+    image: confluentinc/cp-kafka:7.8.1
     container_name: kafka
     ports:
       - "9092:9092"
+      - "29092:29092"
     environment:
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -59,7 +60,7 @@ services:
       - "19000:9000"
     environment:
       KAFKA_BROKERCONNECT: kafka:29092
-        
+
   customer-service:
     build: ./customers
     container_name: customer-service
@@ -71,10 +72,10 @@ services:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/accountdb
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secret
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     depends_on:
       mysql-db:
-       condition: service_healthy
+        condition: service_healthy
       kafka:
        condition: service_healthy
 
@@ -90,7 +91,7 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: secret
       CUSTOMER_SERVICE_URL: http://customer-service:8081
-      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:29092
     depends_on:
      mysql-db:
       condition: service_healthy
