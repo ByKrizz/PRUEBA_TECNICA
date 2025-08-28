@@ -25,8 +25,8 @@ public class AccountMapper {
         entity.setNumeroCuenta(account.getNumero_cuenta());
         entity.setTipoCuenta(account.getTipo_cuenta());
         entity.setSaldoInicial(account.getSaldo_inicial());
-        entity.setSaldoDisponible(account.getSaldo_inicial()); // inicializamos disponible igual al saldo inicial
-        entity.setEstado(Boolean.parseBoolean(account.getEstado())); // si tu Account tiene String
+        entity.setSaldoDisponible(account.getSaldo_disponible()); 
+        entity.setEstado(Boolean.parseBoolean(account.getEstado())); 
         entity.setClienteId(account.getClienteId());
         entity.setFechaCreacion(java.time.LocalDateTime.now());
         return entity;
@@ -43,7 +43,7 @@ public class AccountMapper {
         account.setTipo_cuenta(entity.getTipoCuenta());
         account.setSaldo_inicial(entity.getSaldoInicial());
         account.setSaldo_disponible(entity.getSaldoDisponible());
-        account.setEstado(entity.getEstado().toString()); // si tu Account tiene String
+        account.setEstado(entity.getEstado().toString()); 
         account.setClienteId(entity.getClienteId());
         return account;
     }

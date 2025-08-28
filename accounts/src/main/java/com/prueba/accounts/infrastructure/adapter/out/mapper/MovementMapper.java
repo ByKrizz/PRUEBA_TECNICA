@@ -24,7 +24,7 @@ public class MovementMapper {
         if (entity == null) return null;
         return new Movements(
                 entity.getId(),
-                entity.getFecha().toLocalDate(), // 👈 convierte LocalDateTime a LocalDate
+                entity.getFecha().toLocalDate(), 
                 entity.getTipoMovimiento(),
                 entity.getMonto(),
                 entity.getSaldoDisponible(),
@@ -36,7 +36,7 @@ public class MovementMapper {
         if (domain == null) return null;
         return MovementEntity.builder()
                 .id(domain.getId())
-                .fecha(domain.getFecha().atStartOfDay()) // 👈 convierte LocalDate a LocalDateTime
+                .fecha(domain.getFecha().atStartOfDay()) 
                 .tipoMovimiento(domain.getTipoMovimiento())
                 .monto(domain.getValor())
                 .saldoDisponible(domain.getSaldoDisponible())

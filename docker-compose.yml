@@ -13,6 +13,11 @@ services:
       - db-data:/var/lib/mysql
     networks:
       - backend-net
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   zookeeper:
     image: wurstmeister/zookeeper
@@ -36,7 +41,12 @@ services:
       - zookeeper
     networks:
       - backend-net
-
+    healthcheck:
+        test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+        interval: 10s
+        timeout: 5s
+        retries: 5
+        
   customer-service:
     build: ./customers
     container_name: customer-service
@@ -50,8 +60,10 @@ services:
       SPRING_DATASOURCE_PASSWORD: secret
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
-      - mysql-db
-      - kafka
+      mysql-db:
+       condition: service_healthy
+      kafka:
+       condition: service_healthy
 
   account-service:
     build: ./accounts
@@ -67,9 +79,12 @@ services:
       CUSTOMER_SERVICE_URL: http://customer-service:8081
       SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
     depends_on:
-      - mysql-db
-      - customer-service
-      - kafka
+     mysql-db:
+      condition: service_healthy
+     kafka:
+      condition: service_healthy
+     customer-service: 
+      condition: service_healthy
 
 networks:
   backend-net:

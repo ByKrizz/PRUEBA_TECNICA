@@ -61,12 +61,8 @@ public class AccountServiceImpl implements AccountService {
         Account cuenta = cuentaOpt.get();
         double nuevoSaldo =  monto;
 
-        if (nuevoSaldo < 0) {
-            throw new IllegalStateException("Saldo no disponible");
-        }
-
         cuenta.setSaldo_disponible(nuevoSaldo);
-        accountRepository.save(cuenta);
+        accountRepository.updateBalance(numeroCuenta, nuevoSaldo);
     }
 
 }

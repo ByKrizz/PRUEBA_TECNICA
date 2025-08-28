@@ -24,23 +24,8 @@ import org.springframework.stereotype.Service;
 public class MovementServiceImpl implements MovementService {
 
     private final MovementRepository movementRepository;
-    private final AccountService accountService;
+    private final AccountServiceImpl accountService;
 
-//    @Override
-//    public Movements saveMovement(Movements movimiento) {
-//        if (movimiento.getSaldoDisponible() <= 0) {
-//            throw new IllegalArgumentException("El monto debe ser mayor que 0");
-//        }
-//        if (!movimiento.getTipoMovimiento().equalsIgnoreCase("DEBITO")
-//                && !movimiento.getTipoMovimiento().equalsIgnoreCase("CREDITO")) {
-//            throw new IllegalArgumentException("Tipo de movimiento inválido");
-//        }
-//        if (movimiento.getFecha() == null) {
-//            movimiento.setFecha(LocalDate.now());
-//        }
-//
-//        return movementRepository.save(movimiento);
-//    }
     @Transactional
     @Override
     public Movements saveMovement(Movements movimiento) {
@@ -60,52 +45,26 @@ public class MovementServiceImpl implements MovementService {
                 .orElseThrow(() -> new IllegalArgumentException("Cuenta no encontrada"));
 
         if (movimiento.getTipoMovimiento().equalsIgnoreCase("DEBITO")) {
-            if (cuenta.getSaldo_inicial() < movimiento.getValor()) {
+            if (cuenta.getSaldo_disponible() < movimiento.getValor()) {
                 throw new IllegalStateException("Saldo insuficiente");
             }
 //            cuenta.setSaldo_inicial(cuenta.getSaldo_inicial() - movimiento.getSaldoDisponible());
             cuenta.setSaldo_disponible(cuenta.getSaldo_disponible() - movimiento.getValor());
+            System.out.println("saldo: " + cuenta.getSaldo_disponible());
+            movimiento.setSaldoDisponible(cuenta.getSaldo_disponible() - movimiento.getValor());
+            movimiento.getCuenta().setSaldo_disponible(cuenta.getSaldo_disponible() - movimiento.getValor());
         } else {
 //            cuenta.setSaldo_inicial(cuenta.getSaldo_inicial() + movimiento.getSaldoDisponible());
             cuenta.setSaldo_disponible(cuenta.getSaldo_disponible() + movimiento.getValor());
+            movimiento.setSaldoDisponible(cuenta.getSaldo_disponible() - movimiento.getValor());
+
+            System.out.println("saldo: " + cuenta.getSaldo_disponible());
+            movimiento.getCuenta().setSaldo_disponible(cuenta.getSaldo_disponible() + movimiento.getValor());
         }
 
         accountService.updateBalance(cuenta.getNumero_cuenta(), cuenta.getSaldo_disponible());
-        // Guardar movimiento
         return movementRepository.save(movimiento);
     }
-//    @Transactional
-//    public Movements saveMovement(Movements movimiento) {
-//        // Validaciones básicas
-//        if (movimiento.getValor()<= 0) {
-//            throw new IllegalArgumentException("El monto debe ser mayor que 0");
-//        }
-//        if (!movimiento.getTipoMovimiento().equalsIgnoreCase("DEBITO")
-//                && !movimiento.getTipoMovimiento().equalsIgnoreCase("CREDITO")) {
-//            throw new IllegalArgumentException("Tipo de movimiento inválido");
-//        }
-//        if (movimiento.getFecha() == null) {
-//            movimiento.setFecha(LocalDate.now());
-//        }
-//
-//        Account cuenta = accountService.getAccountNumber(movimiento.getCuenta().getNumero_cuenta())
-//                .orElseThrow(() -> new IllegalArgumentException("Cuenta no encontrada"));
-//
-//        if (movimiento.getTipoMovimiento().equalsIgnoreCase("DEBITO")) {
-//            if (cuenta.getSaldo_inicial() < movimiento.getValor()) {
-//                throw new IllegalStateException("Saldo insuficiente");
-//            }
-////            cuenta.setSaldo_inicial(cuenta.getSaldo_inicial() - movimiento.getSaldoDisponible());
-//            cuenta.setSaldo_disponible(cuenta.getSaldo_disponible() - movimiento.getValor());
-//        } else {
-////            cuenta.setSaldo_inicial(cuenta.getSaldo_inicial() + movimiento.getSaldoDisponible());
-//            cuenta.setSaldo_disponible(cuenta.getSaldo_disponible() + movimiento.getValor());
-//        }
-//
-//        accountService.updateBalance(cuenta.getNumero_cuenta(), cuenta.getSaldo_disponible());
-//        // Guardar movimiento
-//        return movementRepository.save(movimiento);
-//    }
 
     @Override
     public List<Movements> getMovementAccount(String numeroCuenta) {
