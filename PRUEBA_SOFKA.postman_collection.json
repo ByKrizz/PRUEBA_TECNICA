@@ -92,7 +92,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"debito\",\r\n  \"valor\": 10.0,\r\n  \"saldoDisponible\": 500.0,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756315655957\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"saldo_inicial\": 500.0,\r\n        \"saldo_disponible\": 500.0,\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
+					"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"CREDITO\",\r\n  \"valor\": 1.5,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756349921809\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"saldo_inicial\": 601.5,\r\n        \"saldo_disponible\": 600.0,\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -100,6 +100,14 @@
 					}
 				},
 				"url": "http://localhost:8080/movements"
+			},
+			"response": []
+		},
+		{
+			"name": "REPORT",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
