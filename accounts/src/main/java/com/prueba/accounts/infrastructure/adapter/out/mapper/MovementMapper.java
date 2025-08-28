@@ -7,6 +7,8 @@ package com.prueba.accounts.infrastructure.adapter.out.mapper;
 import com.prueba.accounts.domain.model.Movements;
 import com.prueba.accounts.infrastructure.adapter.out.entity.AccountEntity;
 import com.prueba.accounts.infrastructure.adapter.out.entity.MovementEntity;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -21,10 +23,12 @@ public class MovementMapper {
     private final AccountMapper accountMapper;
 
     public Movements toDomain(MovementEntity entity) {
-        if (entity == null) return null;
+        if (entity == null) {
+            return null;
+        }
         return new Movements(
                 entity.getId(),
-                entity.getFecha().toLocalDate(), 
+                entity.getFecha().toLocalDate(),
                 entity.getTipoMovimiento(),
                 entity.getMonto(),
                 entity.getSaldoDisponible(),
@@ -33,16 +37,24 @@ public class MovementMapper {
     }
 
     public MovementEntity toEntity(Movements domain) {
-        if (domain == null) return null;
+        if (domain == null) {
+            return null;
+        }
         return MovementEntity.builder()
                 .id(domain.getId())
-                .fecha(domain.getFecha().atStartOfDay()) 
+                .fecha(domain.getFecha().atStartOfDay())
                 .tipoMovimiento(domain.getTipoMovimiento())
                 .monto(domain.getValor())
                 .saldoDisponible(domain.getSaldoDisponible())
                 .estado(true) // por defecto
                 .account(accountMapper.toEntity(domain.getCuenta()))
                 .build();
+    }
+
+    public List<Movements> toDomainList(List<MovementEntity> entities) {
+        return entities.stream()
+                .map(this::toDomain)
+                .collect(Collectors.toList());
     }
 }
 

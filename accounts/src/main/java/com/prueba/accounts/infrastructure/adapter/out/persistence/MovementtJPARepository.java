@@ -11,6 +11,7 @@ import com.prueba.accounts.infrastructure.adapter.out.mapper.MovementMapper;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -50,14 +51,23 @@ public class MovementtJPARepository implements MovementRepository {
 
     @Override
     public List<Movements> findByCustomerDate(Long clienteId, LocalDate desde, LocalDate hasta) {
-        String jpql = "SELECT m FROM tbl_movements m , tbl_customer c, tbl_account a   WHERE c.id = :clienteId"
-                + "AND a.clienteId = c.id"
-                + "AND m.clienteId = a.clienteId  "
-                + "AND m.fecha BETWEEN :desde AND :hasta";
-        return entityManager.createQuery(jpql, Movements.class)
+        LocalDateTime desdeDateTime = desde.atStartOfDay();
+        LocalDateTime hastaDateTime = hasta.atTime(23, 59, 59);
+
+        String jpql = "SELECT m FROM MovementEntity m "
+                + "JOIN m.account a "
+                + "WHERE a.clienteId = :clienteId "
+                + "AND m.fecha BETWEEN :desde AND :hasta "
+                + "ORDER BY m.fecha ASC";
+
+        List<MovementEntity> entities = entityManager.createQuery(jpql, MovementEntity.class)
                 .setParameter("clienteId", clienteId)
-                .setParameter("desde", desde)
-                .setParameter("hasta", hasta)
+                .setParameter("desde", desdeDateTime)
+                .setParameter("hasta", hastaDateTime)
                 .getResultList();
+
+        // Mapear toda la lista a la lista de dominio
+        return movementMapper.toDomainList(entities);
     }
+
 }
