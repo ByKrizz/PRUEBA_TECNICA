@@ -7,109 +7,293 @@
 	},
 	"item": [
 		{
-			"name": "CREATE_CUSTOMER",
-			"request": {
-				"auth": {
-					"type": "basic",
-					"basic": {}
+			"name": "CUSTOMER",
+			"item": [
+				{
+					"name": "CREATE_CUSTOMER",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Christopher Arteaga\",\r\n  \"direccion\": \"Av. Quito 123\",\r\n  \"telefono\": \"0991234567\",\r\n  \"password\": \"secreto\",\r\n  \"estado\": \"ACTIVO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customers"
+					},
+					"response": []
 				},
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"nombre\": \"Christopher Arteaga\",\r\n  \"direccion\": \"Av. Quito 123\",\r\n  \"telefono\": \"0991234567\",\r\n  \"password\": \"secreto\",\r\n  \"estado\": \"ACTIVO\"\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+				{
+					"name": "GET_CUSTOMER_ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customers/1"
+					},
+					"response": []
 				},
-				"url": "http://localhost:8081/customers"
-			},
-			"response": []
+				{
+					"name": "GET_ALL_CUSTOMER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE_CUSTOMER",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"Christopher Updated\",\r\n    \"direccion\": \"AV A nueva\",\r\n    \"telefono\": \"0912345678\",\r\n    \"password\": \"123456789.\",\r\n    \"estado\": \"activo\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customers/1"
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE_CUSTOMER",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "http://localhost:8081/customers/1"
+					},
+					"response": []
+				}
+			]
 		},
 		{
-			"name": "GET_CUSTOMER_ID",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+			"name": "ACCOUNT",
+			"item": [
+				{
+					"name": "CREATE_ACCOUNT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tipo_cuenta\": \"Ahorros\",\r\n  \"saldo_inicial\": 500.0,\r\n  \"estado\": \"Activo\",\r\n  \"clienteId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/account"
+					},
+					"response": []
 				},
-				"url": "http://localhost:8081/customers/1"
-			},
-			"response": []
-		},
-		{
-			"name": "CREATE_ACCOUNT",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"tipo_cuenta\": \"Ahorros\",\r\n  \"saldo_inicial\": 500.0,\r\n  \"estado\": \"Activo\",\r\n  \"clienteId\": 1\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+				{
+					"name": "GET_ACCOUNT_CUSTOMER_ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/account/customer/1"
+					},
+					"response": []
 				},
-				"url": "http://localhost:8080/account"
-			},
-			"response": []
-		},
-		{
-			"name": "GET_ACCOUNT_NUMBER",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8080/account/ACC-1756268623667"
-			},
-			"response": []
-		},
-		{
-			"name": "GET_ACCOUNT_CUSTOMER_ID",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": "http://localhost:8080/account/customer/1"
-			},
-			"response": []
-		},
-		{
-			"name": "MOVEMENT_DEBIT_CREDIT",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"CREDITO\",\r\n  \"valor\": 1.5,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756349921809\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"saldo_inicial\": 601.5,\r\n        \"saldo_disponible\": 600.0,\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": "http://localhost:8080/movements"
-			},
-			"response": []
+				{
+					"name": "GET_ACCOUNT_NUMBER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/account/ACC-1756268623667"
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "REPORT",
-			"request": {
-				"method": "GET",
-				"header": []
-			},
-			"response": []
+			"item": [
+				{
+					"name": "REPORT",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ALL_PRUEBA_RAPIDA",
+			"item": [
+				{
+					"name": "CREATE_CUSTOMER",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": {}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"Christopher Arteaga\",\r\n  \"direccion\": \"Av. Quito 123\",\r\n  \"telefono\": \"0991234567\",\r\n  \"password\": \"secreto\",\r\n  \"estado\": \"ACTIVO\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customers"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_CUSTOMER_ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8081/customers/1"
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE_ACCOUNT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"tipo_cuenta\": \"Ahorros\",\r\n  \"saldo_inicial\": 500.0,\r\n  \"estado\": \"Activo\",\r\n  \"clienteId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/account"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ACCOUNT_NUMBER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/account/ACC-1756268623667"
+					},
+					"response": []
+				},
+				{
+					"name": "GET_ACCOUNT_CUSTOMER_ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "http://localhost:8080/account/customer/1"
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT_DEBIT_CREDIT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"CREDITO\",\r\n  \"valor\": 1.5,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756349921809\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"saldo_inicial\": 601.5,\r\n        \"saldo_disponible\": 600.0,\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/movements"
+					},
+					"response": []
+				},
+				{
+					"name": "REPORT",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MOVEMENT",
+			"item": [
+				{
+					"name": "MOVEMENT_CREDIT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"CREDITO\",\r\n  \"valor\": 1.5,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756349921809\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"saldo_inicial\": 601.5,\r\n        \"saldo_disponible\": 600.0,\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/movements"
+					},
+					"response": []
+				},
+				{
+					"name": "MOVEMENT_DEBIT",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"fecha\": \"2025-08-27\",\r\n  \"tipoMovimiento\": \"DEBITO\",\r\n  \"valor\": 1.5,\r\n  \"cuenta\": {\r\n    \"id\": 1,\r\n        \"numero_cuenta\": \"ACC-1756349921809\",\r\n        \"tipo_cuenta\": \"Ahorros\",\r\n        \"estado\": \"false\",\r\n        \"clienteId\": 1\r\n  }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "http://localhost:8080/movements"
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
